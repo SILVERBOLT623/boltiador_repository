@@ -1,0 +1,42 @@
+{% extends 'bolt_app/base.html' %}
+{% load static %}
+
+{% block title %}Education — {% if profile %}{{ profile.name }}{% endif %}{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="container" style="position:relative;">
+    <span class="section-label">Academic background</span>
+    <h1 style="font-size:clamp(2rem,5vw,3.5rem); letter-spacing:-0.02em;">Education</h1>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container" style="max-width:780px;">
+    {% if education_list %}
+    <div class="education-timeline">
+      {% for edu in education_list %}
+      <div class="edu-item fade-up">
+        <div class="edu-header">
+          <div>
+            <div class="edu-institution">{{ edu.institution }}</div>
+            <div class="edu-degree">{{ edu.degree }}</div>
+            <div class="edu-field">{{ edu.field_of_study }}</div>
+          </div>
+          <span class="edu-years">{{ edu.get_year_range }}</span>
+        </div>
+        {% if edu.description %}
+        <p class="edu-desc">{{ edu.description }}</p>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p style="color:var(--text-3); font-family:var(--font-mono); font-size:0.875rem;">
+      No education records yet. Add them in the admin panel.
+    </p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

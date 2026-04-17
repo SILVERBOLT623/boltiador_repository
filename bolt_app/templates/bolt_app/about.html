@@ -1,0 +1,76 @@
+{% extends 'bolt_app/base.html' %}
+{% load static %}
+
+{% block title %}About — {% if profile %}{{ profile.name }}{% endif %}{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="container" style="position:relative;">
+    <span class="section-label">Get to know me</span>
+    <h1 style="font-size:clamp(2rem,5vw,3.5rem); letter-spacing:-0.02em;">About Me</h1>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    {% if profile %}
+    <div class="about-grid">
+
+      <!-- Photo Column -->
+      <div class="about-photo-wrap fade-up">
+        <div class="about-photo-frame">
+          {% if profile.profile_photo %}
+            <img src="{{ profile.profile_photo.url }}" alt="{{ profile.name }}" />
+          {% else %}
+            <div class="about-photo-placeholder">
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#5a5a72" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            </div>
+          {% endif %}
+        </div>
+        <div class="about-card-float">
+          <div class="num">{{ profile.name|truncatechars:2 }}</div>
+          <div class="label">{{ profile.tagline|truncatewords:3 }}</div>
+        </div>
+      </div>
+
+      <!-- Text Column -->
+      <div class="about-text fade-up delay-2">
+        <div class="section-header" style="margin-bottom:2rem;">
+          <span class="section-label">Background</span>
+          <h2>Who Am I?</h2>
+          <div class="section-line"></div>
+        </div>
+
+        {% for paragraph in profile.bio %}{{ paragraph }}{% endfor %}
+        <div>
+          {{ profile.bios }}
+        </div>
+
+        {% if profile.career_goals %}
+        <div class="about-goals">
+          <h4>Career Goals &amp; Interests</h4>
+          <p style="margin:0; font-size:0.9rem; line-height:1.75;">{{ profile.career_goals }}</p>
+        </div>
+        {% endif %}
+
+        <div style="display:flex; gap:1rem; margin-top:2rem; flex-wrap:wrap;">
+          <a href="{% url 'projects' %}" class="btn btn-primary">View My Projects</a>
+          {% if profile.resume %}
+          <a href="{{ profile.resume.url }}" class="btn btn-outline" download>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download CV
+          </a>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+    {% else %}
+    <p style="color:var(--text-3); font-family:var(--font-mono); font-size:0.875rem;">
+      No profile data yet. Add your profile in the admin panel.
+    </p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

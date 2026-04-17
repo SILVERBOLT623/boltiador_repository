@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}{% if profile %}{{ profile.name }}{% else %}Portfolio{% endif %}{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}{% if profile %}{{ profile.tagline }}{% else %}Personal Portfolio{% endif %}{% endblock %}" />
+  <link rel="stylesheet" href="{% static 'bolt_app/css/style.css' %}" />
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+  <!-- ── Navigation ── -->
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="{% url 'home' %}" class="nav-logo">
+        {% if profile %}<span>{{ profile.name|truncatechars:2 }}{% else %}<span>/</span>Portfolio{% endif %}
+      </a>
+
+      <nav>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="{% url 'home' %}"      {% if active_page == 'home'      %}class="active"{% endif %}>Home</a></li>
+          <li><a href="{% url 'about' %}"     {% if active_page == 'about'     %}class="active"{% endif %}>About</a></li>
+          <li><a href="{% url 'skills' %}"    {% if active_page == 'skills'    %}class="active"{% endif %}>Skills</a></li>
+          <li><a href="{% url 'projects' %}"  {% if active_page == 'projects'  %}class="active"{% endif %}>Projects</a></li>
+          <li><a href="{% url 'education' %}" {% if active_page == 'education' %}class="active"{% endif %}>Education</a></li>
+          <li><a href="{% url 'contact' %}"   class="nav-cta {% if active_page == 'contact' %}active{% endif %}">Contact</a></li>
+        </ul>
+      </nav>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ── Main Content ── -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="footer-copy">
+        &copy; {% now "Y" %} {% if profile %}{{ profile.name }}{% else %}Portfolio{% endif %} — Built with Django
+      </p>
+      <nav class="footer-links">
+        {% if profile.github_url   %}<a href="{{ profile.github_url }}"   target="_blank" rel="noopener">GitHub</a>{% endif %}
+        {% if profile.linkedin_url %}<a href="{{ profile.linkedin_url }}" target="_blank" rel="noopener">LinkedIn</a>{% endif %}
+        {% if profile.twitter_url  %}<a href="{{ profile.twitter_url }}"  target="_blank" rel="noopener">Twitter</a>{% endif %}
+        {% if profile.email        %}<a href="mailto:{{ profile.email }}">Email</a>{% endif %}
+      </nav>
+    </div>
+  </footer>
+
+  <script src="{% static 'bolt_app/js/main.js' %}"></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

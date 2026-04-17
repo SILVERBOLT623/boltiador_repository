@@ -1,0 +1,56 @@
+{% extends 'bolt_app/base.html' %}
+{% load static %}
+
+{% block title %}Skills — {% if profile %}{{ profile.name }}{% endif %}{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="container" style="position:relative;">
+    <span class="section-label">What I know</span>
+    <h1 style="font-size:clamp(2rem,5vw,3.5rem); letter-spacing:-0.02em;">Skills &amp; Expertise</h1>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    {% if skill_categories %}
+
+    <div class="skills-grid">
+      {% for category, skills in skill_categories.items %}
+      <div class="skill-category">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon">
+            {% if category == 'Frontend' %}🎨
+            {% elif category == 'Backend' %}⚙️
+            {% elif category == 'Database' %}🗄️
+            {% elif category == 'DevOps' %}🚀
+            {% elif category == 'Tools' %}🛠️
+            {% else %}💡{% endif %}
+          </div>
+          <span class="skill-cat-name">{{ category }}</span>
+        </div>
+
+        {% for skill in skills %}
+        <div class="skill-item">
+          <div class="skill-info">
+            <span class="skill-name">{{ skill.name }}</span>
+            <span class="skill-pct">{{ skill.proficiency }}%</span>
+          </div>
+          <div class="skill-bar">
+            <div class="skill-fill" data-width="{{ skill.proficiency }}" style="width:0%"></div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+
+    {% else %}
+    <p style="color:var(--text-3); font-family:var(--font-mono); font-size:0.875rem;">
+      No skills added yet. Add skills in the admin panel.
+    </p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
